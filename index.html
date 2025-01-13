@@ -1,150 +1,109 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program Perkiraan Skor Tes Masuk Universitas</title>
+    <title>Perkiraan Skor Tes Masuk Universitas</title>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-    }
-
-    h1 {
-        color: #333;
-        margin-bottom: 20px;
-        font-size: 24px;
-    }
-
-    button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 15px 30px;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.1s;
-    }
-
-    button:hover {
-        background-color: #45a049;
-    }
-
-    button:active {
-        transform: scale(0.98);
-    }
-
-    .container {
-        text-align: center;
-        padding: 30px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        width: 100%;
-    }
-
-    footer {
-        margin-top: 20px;
-        font-size: 14px;
-        color: #666;
-        text-align: center;
-    }
-
-    /* Optional: Add responsiveness for smaller screens */
-    @media (max-width: 600px) {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
         .container {
-            padding: 20px;
-            max-width: 90%;
+            max-width: 600px;
+            margin: auto;
         }
-
         h1 {
-            font-size: 20px;
+            text-align: center;
         }
-
-        button {
-            padding: 12px 25px;
-            font-size: 14px;
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
-    }
-</style>
-    <script>
-        function hitungSkor() {
-            const maxSoal = {
-                penalaranUmum: 30,
-                pengetahuanUmum: 20,
-                pemahamanBacaan: 20,
-                pengetahuanKuantitatif: 15,
-                literasiIndonesia: 30,
-                literasiInggris: 20,
-                penalaranMatematika: 20
-            };
-
-            let jawabanBenar = [];
-
-            function validasiInput(value, max) {
-                if (value >= 0 && value <= max) {
-                    return true;
-                } else {
-                    alert(`Jumlah jawaban benar tidak boleh lebih dari ${max} atau kurang dari 0.`);
-                    return false;
-                }
-            }
-
-            const penalaranUmum = parseInt(prompt("Masukkan perkiraan jawaban benar pada Penalaran Umum (30 Soal):"));
-            if (validasiInput(penalaranUmum, maxSoal.penalaranUmum)) jawabanBenar.push(penalaranUmum);
-
-            const pengetahuanUmum = parseInt(prompt("Masukkan perkiraan jawaban benar pada Pengetahuan dan Pemahaman Umum (20 Soal):"));
-            if (validasiInput(pengetahuanUmum, maxSoal.pengetahuanUmum)) jawabanBenar.push(pengetahuanUmum);
-
-            const pemahamanBacaan = parseInt(prompt("Masukkan perkiraan jawaban benar pada Pemahaman Bacaan dan Menulis (20 Soal):"));
-            if (validasiInput(pemahamanBacaan, maxSoal.pemahamanBacaan)) jawabanBenar.push(pemahamanBacaan);
-
-            const pengetahuanKuantitatif = parseInt(prompt("Masukkan perkiraan jawaban benar pada Pengetahuan Kuantitatif (15 Soal):"));
-            if (validasiInput(pengetahuanKuantitatif, maxSoal.pengetahuanKuantitatif)) jawabanBenar.push(pengetahuanKuantitatif);
-
-            const literasiIndonesia = parseInt(prompt("Masukkan perkiraan jawaban benar pada Literasi Bahasa Indonesia (30 Soal):"));
-            if (validasiInput(literasiIndonesia, maxSoal.literasiIndonesia)) jawabanBenar.push(literasiIndonesia);
-
-            const literasiInggris = parseInt(prompt("Masukkan perkiraan jawaban benar pada Literasi Bahasa Inggris (20 Soal):"));
-            if (validasiInput(literasiInggris, maxSoal.literasiInggris)) jawabanBenar.push(literasiInggris);
-
-            const penalaranMatematika = parseInt(prompt("Masukkan perkiraan jawaban benar pada Penalaran Matematika (20 Soal):"));
-            if (validasiInput(penalaranMatematika, maxSoal.penalaranMatematika)) jawabanBenar.push(penalaranMatematika);
-
-            if (jawabanBenar.length === 7) {
-                const jumlahBenar = jawabanBenar.reduce((a, b) => a + b, 0);
-                const jumlahSalah = 155 - jumlahBenar;
-                const nilaiTotal = jumlahBenar * 6.58;
-
-                let hasil = `Jawaban Benar: ${jumlahBenar}\n`;
-                hasil += `Jawaban Salah: ${jumlahSalah}\n`;
-                hasil += `Perkiraan Nilai Anda: ${nilaiTotal.toFixed(2)}\n`;
-
-                if (nilaiTotal >= 670) {
-                    hasil += "Anda memiliki peluang untuk lulus PTN Top 3";
-                } else {
-                    hasil += "Lebih banyak belajar lagi";
-                }
-
-                alert(hasil);
-            } else {
-                alert("Proses dihentikan karena ada input yang tidak valid.");
-            }
-        }
-    </script>
+    </style>
 </head>
 <body>
-    <h1>Kalkulator Skor SNBT</h1>
-    <button onclick="hitungSkor()">Mulai Program</button>
+    <div class="container">
+        <h1>Perkiraan Skor Tes Masuk Universitas</h1>
+        <form id="scoreForm">
+            <label for="pu">Penalaran Umum (30 Soal):</label><br>
+            <input type="number" id="pu" max="30" min="0" required><br><br>
+
+            <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal):</label><br>
+            <input type="number" id="ppu" max="20" min="0" required><br><br>
+
+            <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal):</label><br>
+            <input type="number" id="pbm" max="20" min="0" required><br><br>
+
+            <label for="pk">Pengetahuan Kuantitatif (20 Soal):</label><br>
+            <input type="number" id="pk" max="20" min="0" required><br><br>
+
+            <label for="lbi">Literasi Bahasa Indonesia (30 Soal):</label><br>
+            <input type="number" id="lbi" max="30" min="0" required><br><br>
+
+            <label for="lbe">Literasi Bahasa Inggris (20 Soal):</label><br>
+            <input type="number" id="lbe" max="20" min="0" required><br><br>
+
+            <label for="pm">Penalaran Matematika (20 Soal):</label><br>
+            <input type="number" id="pm" max="20" min="0" required><br><br>
+
+            <button type="button" onclick="calculateScore()">Hitung</button>
+        </form>
+
+        <div id="result" class="output" style="display: none;">
+            <p id="correctAnswers"></p>
+            <p id="wrongAnswers"></p>
+            <p id="estimatedScore"></p>
+            <p id="resultMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateScore() {
+            const maxQuestions = {
+                pu: 30,
+                ppu: 20,
+                pbm: 20,
+                pk: 20,
+                lbi: 30,
+                lbe: 20,
+                pm: 20
+            };
+
+            let totalCorrect = 0;
+            let valid = true;
+
+            for (const [key, max] of Object.entries(maxQuestions)) {
+                const value = parseInt(document.getElementById(key).value) || 0;
+
+                if (value < 0 || value > max) {
+                    alert(`Nilai untuk ${key.toUpperCase()} harus antara 0 dan ${max}.`);
+                    valid = false;
+                    break;
+                }
+                totalCorrect += value;
+            }
+
+            if (!valid) return;
+
+            const totalQuestions = 160;
+            const totalWrong = totalQuestions - totalCorrect;
+            const estimatedScore = totalCorrect * 6.58;
+
+            document.getElementById("correctAnswers").textContent = `Jawaban benar: ${totalCorrect}`;
+            document.getElementById("wrongAnswers").textContent = `Jawaban salah: ${totalWrong}`;
+            document.getElementById("estimatedScore").textContent = `Perkiraan nilai Anda adalah: ${estimatedScore.toFixed(2)}`;
+
+            const resultMessage = estimatedScore >= 670
+                ? "Anda memiliki peluang untuk lulus PTN Top 3"
+                : "Lebih banyak belajar lagi";
+
+            document.getElementById("resultMessage").textContent = resultMessage;
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
 </body>
 </html>
-
