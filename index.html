@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perkiraan Skor Tes Masuk Universitas</title>
+    <title>Perhitungan Nilai Tes Masuk Universitas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,81 +27,78 @@
 </head>
 <body>
     <div class="container">
-        <h1>Perkiraan Skor Tes Masuk Universitas</h1>
+        <h1>Perhitungan Nilai Tes Masuk Universitas</h1>
         <form id="scoreForm">
-            <label for="pu">Penalaran Umum (30 Soal):</label><br>
-            <input type="number" id="pu" max="30" min="0" required><br><br>
-
-            <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal):</label><br>
+            <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal, Maks 875.92):</label><br>
             <input type="number" id="ppu" max="20" min="0" required><br><br>
 
-            <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal):</label><br>
+            <label for="pu">Penalaran Umum (30 Soal, Maks 886.12):</label><br>
+            <input type="number" id="pu" max="30" min="0" required><br><br>
+
+            <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal, Maks 857.13):</label><br>
             <input type="number" id="pbm" max="20" min="0" required><br><br>
 
-            <label for="pk">Pengetahuan Kuantitatif (20 Soal):</label><br>
+            <label for="pk">Pengetahuan Kuantitatif (20 Soal, Maks 1000.0):</label><br>
             <input type="number" id="pk" max="20" min="0" required><br><br>
 
-            <label for="lbi">Literasi Bahasa Indonesia (30 Soal):</label><br>
-            <input type="number" id="lbi" max="30" min="0" required><br><br>
+            <label for="lbi">Literasi Bahasa Indonesia (25 Soal, Maks 870.76):</label><br>
+            <input type="number" id="lbi" max="25" min="0" required><br><br>
 
-            <label for="lbe">Literasi Bahasa Inggris (20 Soal):</label><br>
-            <input type="number" id="lbe" max="20" min="0" required><br><br>
-
-            <label for="pm">Penalaran Matematika (20 Soal):</label><br>
+            <label for="pm">Penalaran Matematika (20 Soal, Maks 1000.0):</label><br>
             <input type="number" id="pm" max="20" min="0" required><br><br>
+
+            <label for="lbe">Literasi Bahasa Inggris (20 Soal, Maks 885.75):</label><br>
+            <input type="number" id="lbe" max="20" min="0" required><br><br>
 
             <button type="button" onclick="calculateScore()">Hitung</button>
         </form>
 
         <div id="result" class="output" style="display: none;">
-            <p id="correctAnswers"></p>
-            <p id="wrongAnswers"></p>
-            <p id="estimatedScore"></p>
-            <p id="resultMessage"></p>
+            <p id="scores"></p>
+            <p id="averageScore"></p>
         </div>
     </div>
 
     <script>
         function calculateScore() {
-            const maxQuestions = {
-                pu: 30,
-                ppu: 20,
-                pbm: 20,
-                pk: 20,
-                lbi: 30,
-                lbe: 20,
-                pm: 20
+            // Data soal dan nilai maksimum
+            const subtests = {
+                ppu: { maxQuestions: 20, maxScore: 875.92 },
+                pu: { maxQuestions: 30, maxScore: 886.12 },
+                pbm: { maxQuestions: 20, maxScore: 857.13 },
+                pk: { maxQuestions: 20, maxScore: 1000.0 },
+                lbi: { maxQuestions: 25, maxScore: 870.76 },
+                pm: { maxQuestions: 20, maxScore: 1000.0 },
+                lbe: { maxQuestions: 20, maxScore: 885.75 }
             };
 
-            let totalCorrect = 0;
+            let totalScore = 0;
             let valid = true;
+            let scores = "";
 
-            for (const [key, max] of Object.entries(maxQuestions)) {
-                const value = parseInt(document.getElementById(key).value) || 0;
+            // Hitung skor tiap subtes
+            for (const [key, data] of Object.entries(subtests)) {
+                const correctAnswers = parseInt(document.getElementById(key).value) || 0;
 
-                if (value < 0 || value > max) {
-                    alert(`Nilai untuk ${key.toUpperCase()} harus antara 0 dan ${max}.`);
+                if (correctAnswers < 0 || correctAnswers > data.maxQuestions) {
+                    alert(`Nilai untuk ${key.toUpperCase()} harus antara 0 dan ${data.maxQuestions}.`);
                     valid = false;
                     break;
                 }
-                totalCorrect += value;
+
+                const score = (correctAnswers / data.maxQuestions) * data.maxScore;
+                scores += `${key.toUpperCase()}: Skor ${score.toFixed(2)} dari maksimum ${data.maxScore}<br>`;
+                totalScore += score;
             }
 
             if (!valid) return;
 
-            const totalQuestions = 160;
-            const totalWrong = totalQuestions - totalCorrect;
-            const estimatedScore = totalCorrect * 6.58;
+            // Hitung rata-rata
+            const averageScore = totalScore / Object.keys(subtests).length;
 
-            document.getElementById("correctAnswers").textContent = `Jawaban benar: ${totalCorrect}`;
-            document.getElementById("wrongAnswers").textContent = `Jawaban salah: ${totalWrong}`;
-            document.getElementById("estimatedScore").textContent = `Perkiraan nilai Anda adalah: ${estimatedScore.toFixed(2)}`;
-
-            const resultMessage = estimatedScore >= 670
-                ? "Anda memiliki peluang untuk lulus PTN Top 3"
-                : "Lebih banyak belajar lagi";
-
-            document.getElementById("resultMessage").textContent = resultMessage;
+            // Tampilkan hasil
+            document.getElementById("scores").innerHTML = `Detail Skor:<br>${scores}`;
+            document.getElementById("averageScore").textContent = `Rata-rata skor Anda adalah: ${averageScore.toFixed(2)}`;
             document.getElementById("result").style.display = "block";
         }
     </script>
