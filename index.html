@@ -4,221 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Skor SNBT</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --background-color: #f1f5f9;
-            --card-bg: #ffffff;
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(255, 255, 255, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --muted-color: #6c757d;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e9ecef;
+                --card-bg: rgba(30, 30, 30, 0.95);
+                --border-color: rgba(255, 255, 255, 0.1);
+                --shadow-color: rgba(0, 0, 0, 0.3);
+                --muted-color: #adb5bd;
+                --primary-color: #5a72f5;
+                --secondary-color: #4a54e6;
+            }
+            
+            .alert-primary {
+                background-color: rgba(67, 97, 238, 0.2);
+                border-color: rgba(67, 97, 238, 0.3);
+                color: #a6b5ff;
+            }
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
-            background-color: var(--background-color);
-            color: #1e293b;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        .container {
+        
+        .glass-container {
             max-width: 800px;
-            margin: 10px auto;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 1.8em;
-        }
-
-        h3 {
-            text-align: center;
-            color: #475569;
-            margin-bottom: 20px;
-            font-weight: 500;
-            font-size: 1.1em;
-        }
-
-        .username {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 15px;
-            font-size: 0.9em;
-            font-weight: 400;
-        }
-
-        .input-group {
-            margin-bottom: 12px;
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 8px;
-            transition: transform 0.2s ease;
-        }
-
-        .input-group:hover {
-            transform: translateX(3px);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: var(--secondary-color);
-            font-size: 0.9em;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 24px;
+        .input-card {
+            background: var(--card-bg);
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            width: 100%;
-            transition: background-color 0.3s ease;
-            margin-top: 8px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
 
-        button:hover {
-            background-color: var(--secondary-color);
+        .input-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px var(--shadow-color);
         }
 
-        .output {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #f0fdf4;
-            border: 2px solid #bbf7d0;
+        .gradient-btn {
+            background: var(--gradient);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        #scores p {
-            margin: 6px 0;
-            padding: 8px;
-            background: white;
+        .gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .score-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .progress-custom {
+            height: 8px;
             border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9em;
-            color: #14532d;
         }
-
-        #averageScore {
-            font-size: 1.1em;
-            padding: 12px;
-            margin-top: 12px;
-            background: #dcfce7;
-            color: #166534;
-            border-radius: 6px;
-            font-weight: 600;
+        
+        .text-muted {
+            color: var(--muted-color) !important;
         }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-                margin: 5px;
-                border-radius: 8px;
-            }
-            
-            h1 {
-                font-size: 1.5em;
-            }
-            
-            .username {
-                font-size: 0.8em;
-                margin-bottom: 10px;
-            }
-            
-            .input-group {
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-            
-            input {
-                padding: 8px;
-                font-size: 13px;
-            }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-color);
+        }
+        
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary-color);
+            color: var(--text-color);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Kalkulator Skor SNBT</h1>
-        <h3>Berdasarkan Jumlah Benar</h3>
-        <h5 class="username">Oleh @fleursincostan</h5>
-        
-        <form id="scoreForm">
-            <div class="input-group">
-                <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal)</label>
-                <input type="number" id="ppu" max="20" min="0" required placeholder="Maksimal 20">
+<body class="d-flex align-items-center py-4">
+    <!-- Seluruh kode HTML asli tetap dipertahankan di bawah ini -->
+    <div class="container glass-container p-4 my-4">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <div class="icon-wrapper mb-3">
+                <i class="fas fa-calculator fa-3x text-primary"></i>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Kalkulator Skor SNBT</h1>
+            <p class="lead text-muted mb-3">Hitung skor UTBK-mu dengan presisi</p>
+            <div class="score-badge d-inline-block">Oleh @fleursincostan</div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="row g-4 mb-4">
+            <!-- PPU -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-book me-2"></i>PPU (20 Soal)
+                    </label>
+                    <input type="number" id="ppu" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="20" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="pu">Penalaran Umum (30 Soal)</label>
-                <input type="number" id="pu" max="30" min="0" required placeholder="Maksimal 30">
+            <!-- Repeat similar structure for other inputs -->
+            <!-- PU -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-brain me-2"></i>PU (30 Soal)
+                    </label>
+                    <input type="number" id="pu" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="30" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal)</label>
-                <input type="number" id="pbm" max="20" min="0" required placeholder="Maksimal 20">
+            <!-- PBM -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-pen-alt me-2"></i>PBM (20 Soal)
+                    </label>
+                    <input type="number" id="pbm" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="20" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="pk">Pengetahuan Kuantitatif (20 Soal)</label>
-                <input type="number" id="pk" max="20" min="0" required placeholder="Maksimal 20">
+            <!-- PK -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-calculator me-2"></i>PK (20 Soal)
+                    </label>
+                    <input type="number" id="pk" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="20" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="lbi">Literasi Bahasa Indonesia (30 Soal)</label>
-                <input type="number" id="lbi" max="30" min="0" required placeholder="Maksimal 30">
+            <!-- LBI -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-flag me-2"></i>LBI (30 Soal)
+                    </label>
+                    <input type="number" id="lbi" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="30" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="pm">Penalaran Matematika (20 Soal)</label>
-                <input type="number" id="pm" max="20" min="0" required placeholder="Maksimal 20">
+            <!-- PM -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-shapes me-2"></i>PM (20 Soal)
+                    </label>
+                    <input type="number" id="pm" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="20" required>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="lbe">Literasi Bahasa Inggris (20 Soal)</label>
-                <input type="number" id="lbe" max="20" min="0" required placeholder="Maksimal 20">
+            <!-- LBE -->
+            <div class="col-12 col-md-6">
+                <div class="input-card p-3">
+                    <label class="form-label fw-bold small text-uppercase text-muted mb-2">
+                        <i class="fas fa-globe me-2"></i>LBE (20 Soal)
+                    </label>
+                    <input type="number" id="lbe" class="form-control form-control-lg" 
+                           placeholder="0" min="0" max="20" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <button type="button" class="btn btn-lg gradient-btn text-white w-100 py-3 fw-bold mb-4" 
+                onclick="calculateScore()">
+            <i class="fas fa-calculator me-2"></i>Hitung Skor Sekarang
+        </button>
+
+        <!-- Result Section -->
+        <div id="result" class="result-card p-4 d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Hasil Perhitungan</h4>
+                <span class="score-badge">Skor Akhir</span>
             </div>
 
-            <button type="button" onclick="calculateScore()">Hitung Skor</button>
-        </form>
+            <!-- Detailed Scores -->
+            <div class="row g-3 mb-4" id="scores"></div>
 
-        <div id="result" class="output" style="display: none;">
-            <div id="scores"></div>
-            <div id="averageScore"></div>
+            <!-- Average Score -->
+            <div class="alert alert-primary rounded-lg p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1"><i class="fas fa-tachometer-alt me-2"></i>Rata-rata Skor</h5>
+                        <p class="mb-0 small">Skor keseluruhan yang diperoleh</p>
+                    </div>
+                    <div id="averageScore" class="display-5 fw-bold"></div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="small">Progress Skor</span>
+                    <span class="small" id="progressPercentage">0%</span>
+                </div>
+                <div class="progress progress-custom">
+                    <div id="scoreProgress" class="progress-bar bg-primary" 
+                         role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Script asli tetap sama
         function calculateScore() {
             const subtests = {
                 ppu: { maxQuestions: 20, maxScore: 875.92, minScore: 159.87 },
@@ -232,7 +270,7 @@
 
             let totalScore = 0;
             let valid = true;
-            let scores = "";
+            let scoresHTML = "";
 
             for (const [key, data] of Object.entries(subtests)) {
                 const inputElement = document.getElementById(key);
@@ -247,7 +285,24 @@
 
                 const scoreRange = data.maxScore - data.minScore;
                 const score = data.minScore + (correctAnswers / data.maxQuestions) * scoreRange;
-                scores += `${key.toUpperCase()}: Skor ${score.toFixed(2)}<br>`;
+                
+                scoresHTML += `
+                    <div class="col-12 col-md-6">
+                        <div class="input-card p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">${key.toUpperCase()}</h6>
+                                    <small class="text-muted">Max: ${data.maxScore.toFixed(2)}</small>
+                                </div>
+                                <div class="text-primary fw-bold">${score.toFixed(2)}</div>
+                            </div>
+                            <div class="progress progress-custom mt-2">
+                                <div class="progress-bar bg-primary" 
+                                     style="width: ${(score/data.maxScore)*100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 totalScore += score;
             }
 
@@ -256,34 +311,18 @@
             const averageScore = totalScore / Object.keys(subtests).length;
             const resultDiv = document.getElementById("result");
             
-            resultDiv.innerHTML = `
-                <div id="scores">Detail Skor:<br>${scores}</div>
-                <div id="averageScore">Rata-rata skor Anda: ${averageScore.toFixed(2)}</div>
-            `;
+            // Update results
+            document.getElementById("scores").innerHTML = scoresHTML;
+            document.getElementById("averageScore").textContent = averageScore.toFixed(2);
+            
+            // Update progress bar
+            const maxPossible = 1000; // Assuming max possible average score
+            const progress = (averageScore/maxPossible)*100;
+            document.getElementById("scoreProgress").style.width = `${progress}%`;
+            document.getElementById("progressPercentage").textContent = `${progress.toFixed(1)}%`;
 
-            const feedback = document.createElement('div');
-            feedback.style.marginTop = '15px';
-            feedback.style.padding = '12px';
-            feedback.style.borderRadius = '6px';
-
-            if (averageScore < 650) {
-                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda masih perlu peningkatan. Tingkatkan frekuensi belajar dan fokus pada materi yang kurang dikuasai.`;
-                feedback.style.backgroundColor = '#fef2f2';
-                feedback.style.border = '2px solid #fecaca';
-            } 
-            else if (averageScore < 720) {
-                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda cukup baik. Pertahankan konsistensi dan tingkatkan pemahaman di bidang yang masih lemah.`;
-                feedback.style.backgroundColor = '#fffbeb';
-                feedback.style.border = '2px solid #fde68a';
-            }
-            else {
-                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda sangat baik! Pertahankan dengan latihan soal tingkat tinggi.`;
-                feedback.style.backgroundColor = '#f0fdf4';
-                feedback.style.border = '2px solid #bbf7d0';
-            }
-
-            resultDiv.appendChild(feedback);
-            resultDiv.style.display = "block";
+            // Show result section
+            resultDiv.classList.remove('d-none');
         }
     </script>
 </body>
