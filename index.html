@@ -3,110 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Hasil Skor SNBT</title>
+    <title>Kalkulator Skor SNBT</title>
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f1f5f9;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px;
+            background-color: var(--background-color);
+            color: #1e293b;
         }
+
         .container {
-            max-width: 600px;
-            margin: auto;
+            max-width: 800px;
+            margin: 10px auto;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.8em;
         }
+
         h3 {
             text-align: center;
+            color: #475569;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 1.1em;
         }
-        h5 {
-            text-align: center;
+
+        .input-group {
+            margin-bottom: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
         }
+
+        .input-group:hover {
+            transform: translateX(3px);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
         .output {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        #scores p {
+            margin: 6px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #14532d;
+        }
+
+        #averageScore {
+            font-size: 1.1em;
+            padding: 12px;
+            margin-top: 12px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+                border-radius: 8px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .input-group {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            input {
+                padding: 8px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Kalkulator Hasil Skor SNBT</h1>
+        <h1>Kalkulator Skor SNBT</h1>
         <h3>Berdasarkan Jumlah Benar</h3>
+        
         <form id="scoreForm">
-            <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal, Maks 875.92):</label><br>
-            <input type="number" id="ppu" max="20" min="0" required><br><br>
+            <div class="input-group">
+                <label for="ppu">Pengetahuan dan Pemahaman Umum (20 Soal)</label>
+                <input type="number" id="ppu" max="20" min="0" required placeholder="Maksimal 20">
+            </div>
 
-            <label for="pu">Penalaran Umum (30 Soal, Maks 886.12):</label><br>
-            <input type="number" id="pu" max="30" min="0" required><br><br>
+            <div class="input-group">
+                <label for="pu">Penalaran Umum (30 Soal)</label>
+                <input type="number" id="pu" max="30" min="0" required placeholder="Maksimal 30">
+            </div>
 
-            <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal, Maks 857.13):</label><br>
-            <input type="number" id="pbm" max="20" min="0" required><br><br>
+            <div class="input-group">
+                <label for="pbm">Pemahaman Bacaan dan Menulis (20 Soal)</label>
+                <input type="number" id="pbm" max="20" min="0" required placeholder="Maksimal 20">
+            </div>
 
-            <label for="pk">Pengetahuan Kuantitatif (20 Soal, Maks 1000.0):</label><br>
-            <input type="number" id="pk" max="20" min="0" required><br><br>
+            <div class="input-group">
+                <label for="pk">Pengetahuan Kuantitatif (20 Soal)</label>
+                <input type="number" id="pk" max="20" min="0" required placeholder="Maksimal 20">
+            </div>
 
-            <label for="lbi">Literasi Bahasa Indonesia (30 Soal, Maks 870.76):</label><br>
-            <input type="number" id="lbi" max="30" min="0" required><br><br>
+            <div class="input-group">
+                <label for="lbi">Literasi Bahasa Indonesia (30 Soal)</label>
+                <input type="number" id="lbi" max="30" min="0" required placeholder="Maksimal 30">
+            </div>
 
-            <label for="pm">Penalaran Matematika (20 Soal, Maks 1000.0):</label><br>
-            <input type="number" id="pm" max="20" min="0" required><br><br>
+            <div class="input-group">
+                <label for="pm">Penalaran Matematika (20 Soal)</label>
+                <input type="number" id="pm" max="20" min="0" required placeholder="Maksimal 20">
+            </div>
 
-            <label for="lbe">Literasi Bahasa Inggris (20 Soal, Maks 885.75):</label><br>
-            <input type="number" id="lbe" max="20" min="0" required><br><br>
+            <div class="input-group">
+                <label for="lbe">Literasi Bahasa Inggris (20 Soal)</label>
+                <input type="number" id="lbe" max="20" min="0" required placeholder="Maksimal 20">
+            </div>
 
-            <button type="button" onclick="calculateScore()">Hitung</button>
+            <button type="button" onclick="calculateScore()">Hitung Skor</button>
         </form>
 
         <div id="result" class="output" style="display: none;">
-            <p id="scores"></p>
-            <p id="averageScore"></p>
+            <div id="scores"></div>
+            <div id="averageScore"></div>
         </div>
     </div>
 
     <script>
         function calculateScore() {
-            // Data soal dan nilai maksimum
             const subtests = {
-                ppu: { maxQuestions: 20, maxScore: 875.92 },
-                pu: { maxQuestions: 30, maxScore: 886.12 },
-                pbm: { maxQuestions: 20, maxScore: 857.13 },
-                pk: { maxQuestions: 20, maxScore: 1000.0 },
-                lbi: { maxQuestions: 30, maxScore: 870.76 },
-                pm: { maxQuestions: 20, maxScore: 1000.0 },
-                lbe: { maxQuestions: 20, maxScore: 885.75 }
+                ppu: { maxQuestions: 20, maxScore: 875.92, minScore: 159.87 },
+                pu: { maxQuestions: 30, maxScore: 886.12, minScore: 131.21 },
+                pbm: { maxQuestions: 20, maxScore: 857.13, minScore: 160.53 },
+                pk: { maxQuestions: 20, maxScore: 1000.0, minScore: 192.00 },
+                lbi: { maxQuestions: 30, maxScore: 870.76, minScore: 126.31 },
+                pm: { maxQuestions: 20, maxScore: 1000.0, minScore: 242.38 },
+                lbe: { maxQuestions: 20, maxScore: 885.75, minScore: 233.76 }
             };
 
             let totalScore = 0;
             let valid = true;
             let scores = "";
 
-            // Hitung skor tiap subtes
             for (const [key, data] of Object.entries(subtests)) {
-                const correctAnswers = parseInt(document.getElementById(key).value) || 0;
+                const inputElement = document.getElementById(key);
+                const correctAnswers = parseInt(inputElement.value) || 0;
 
                 if (correctAnswers < 0 || correctAnswers > data.maxQuestions) {
                     alert(`Nilai untuk ${key.toUpperCase()} harus antara 0 dan ${data.maxQuestions}.`);
                     valid = false;
+                    inputElement.focus();
                     break;
                 }
 
-                const score = (correctAnswers / data.maxQuestions) * data.maxScore;
-                scores += `${key.toUpperCase()}: Skor ${score.toFixed(2)} dari maksimum ${data.maxScore}<br>`;
+                const scoreRange = data.maxScore - data.minScore;
+                const score = data.minScore + (correctAnswers / data.maxQuestions) * scoreRange;
+                scores += `${key.toUpperCase()}: Skor ${score.toFixed(2)}<br>`;
                 totalScore += score;
             }
 
             if (!valid) return;
 
-            // Hitung rata-rata
             const averageScore = totalScore / Object.keys(subtests).length;
+            const resultDiv = document.getElementById("result");
+            
+            resultDiv.innerHTML = `
+                <div id="scores">Detail Skor:<br>${scores}</div>
+                <div id="averageScore">Rata-rata skor Anda: ${averageScore.toFixed(2)}</div>
+            `;
 
-            // Tampilkan hasil
-            document.getElementById("scores").innerHTML = `Detail Skor:<br>${scores}`;
-            document.getElementById("averageScore").textContent = `Rata-rata skor Anda adalah: ${averageScore.toFixed(2)}`;
-            document.getElementById("result").style.display = "block";
+            const feedback = document.createElement('div');
+            feedback.style.marginTop = '15px';
+            feedback.style.padding = '12px';
+            feedback.style.borderRadius = '6px';
+
+            if (averageScore < 650) {
+                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda masih perlu peningkatan. Tingkatkan frekuensi belajar dan fokus pada materi yang kurang dikuasai.`;
+                feedback.style.backgroundColor = '#fef2f2';
+                feedback.style.border = '2px solid #fecaca';
+            } 
+            else if (averageScore < 720) {
+                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda cukup baik. Pertahankan konsistensi dan tingkatkan pemahaman di bidang yang masih lemah.`;
+                feedback.style.backgroundColor = '#fffbeb';
+                feedback.style.border = '2px solid #fde68a';
+            }
+            else {
+                feedback.innerHTML = `<strong>Rekomendasi:</strong> Skor Anda sangat baik! Pertahankan dengan latihan soal tingkat tinggi.`;
+                feedback.style.backgroundColor = '#f0fdf4';
+                feedback.style.border = '2px solid #bbf7d0';
+            }
+
+            resultDiv.appendChild(feedback);
+            resultDiv.style.display = "block";
         }
     </script>
 </body>
